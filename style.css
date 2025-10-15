@@ -46,3 +46,69 @@ header .subtitle {
   color: var(--text-secondary);
   font-size: 1.15rem;
 }
+
+.main-content {
+  display: grid;
+  gap: 2rem;
+  /* border: 2px solid #fff; */
+}
+
+.main-content .categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.main-content .categories-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.main-content .quote-container {
+  padding: 1rem 0.5rem;
+  text-align: center;
+  font-size: 1.4rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.quote-container .quote {
+  margin-bottom: 1rem;
+}
+
+.quote-container .author {
+  color: var(--text-tertiary);
+}
+
+.main-content .controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.controls .movers {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls .btn {
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+.main-content .stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
