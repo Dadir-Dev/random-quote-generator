@@ -11,6 +11,9 @@
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
   --text-tertiary: #666666;
+  --accent-primary: #2eaadc;
+  --accent-secondary: #4f6bed;
+  --accent-tertiary: #6b7bde;
   --border: #404040;
   --border-hover: #505050;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -27,6 +30,12 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.5;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 header {
@@ -56,10 +65,11 @@ header .subtitle {
 .main-content .categories {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
 }
 
-.main-content .categories-btn {
+.main-content .category-btn {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   background-color: var(--bg-secondary);
@@ -71,20 +81,74 @@ header .subtitle {
   white-space: nowrap;
 }
 
+.category-btn:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.categories .active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
 .main-content .quote-container {
   padding: 1rem 0.5rem;
   text-align: center;
   font-size: 1.4rem;
   border: 1px solid var(--border);
   border-radius: 10px;
+  box-shadow: var(--shadow);
 }
 
-.quote-container .quote {
-  margin-bottom: 1rem;
+.quote-container .quote-text {
+  font-size: 1.4rem;
+  margin-bottom: 1.5rem;
+  font-weight: 400;
+  position: relative;
+  padding: 0 2rem;
 }
 
-.quote-container .author {
+.quote-text::before {
+  content: '"';
+  position: absolute;
+  left: 0;
+  top: -0.5rem;
+  font-size: 3rem;
+  color: var(--accent-primary);
+  opacity: 0.3;
+  font-family: serif;
+}
+
+.quote-text::after {
+  content: '"';
+  position: absolute;
+  right: 0;
+  top: -0.5rem;
+  font-size: 3rem;
+  color: var(--accent-primary);
+  opacity: 0.3;
+  font-family: serif;
+}
+
+.quote-container .quote-author {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   color: var(--text-tertiary);
+}
+
+.quote-category {
+  padding: 0.25rem 0.75rem;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-left: 1rem;
 }
 
 .main-content .controls {
@@ -100,15 +164,44 @@ header .subtitle {
 
 .controls .btn {
   padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
   border-radius: 10px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-size: 1.25rem;
   font-weight: 500;
   text-shadow: var(--shadow);
   cursor: pointer;
 }
 
+.movers .btn {
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.btn:hover {
+  background: var(--bg-secondary);
+  border-color: var(--border-hover);
+  transform: translateY(-1px);
+}
+
+.btn-icon {
+  font-size: 1.1em;
+}
+
 .main-content .stats {
   display: flex;
   gap: 2rem;
   justify-content: center;
+  margin-top: 1.5rem;
+  color: var(--text-tertiary);
+  font-size: 1rem;
+}
+.stats .stats-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.stats .stats-item span:first-child {
+  font-size: 1.5rem;
 }
