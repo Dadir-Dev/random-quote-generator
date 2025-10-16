@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A random quote generator that delivers
+    daily wisdom and inspiration."
+    />
     <link rel="stylesheet" href="style.css" />
     <title>Random Quote Generator</title>
   </head>
@@ -14,26 +19,42 @@
         <p class="subtitle">Curated Wisdom for every moment</p>
       </header>
       <main class="main-content">
-        <section class="categories" id="categories">
-          <button class="category-btn active">All</button>
-          <button class="category-btn">Motivation</button>
-          <button class="category-btn">Innovation</button>
-          <button class="category-btn">Life</button>
-          <button class="category-btn">Dreams</button>
-          <button class="category-btn">Happiness</button>
-          <button class="category-btn">Love</button>
-          <button class="category-btn">Programming</button>
+        <section
+          class="categories"
+          id="categories"
+          aria-labelledby="quote-categories"
+        >
+          <button class="category-btn active" aria-label="Category: All">
+            All
+          </button>
+          <button class="category-btn" aria-label="Category: Motivation">
+            Motivation
+          </button>
+          <button class="category-btn" aria-label="Category: Innovation">
+            Innovation
+          </button>
+          <button class="category-btn" aria-label="Category: Life">Life</button>
+          <button class="category-btn" aria-label="Category: Dreams">
+            Dreams
+          </button>
+          <button class="category-btn" aria-label="Category: Happiness">
+            Happiness
+          </button>
+          <button class="category-btn" aria-label="Category: Love">Love</button>
+          <button class="category-btn" aria-label="Category: Programming">
+            Programming
+          </button>
         </section>
-        <section class="quote-container">
-          <div class="quote-text" id="quote">
+        <section class="quote-container" aria-labelledby="quote">
+          <blockquote class="quote-text" id="quote">
             Your time is limited, so don't waste it living someone else's life.
-          </div>
-          <div class="quote-author" id="author">
+          </blockquote>
+          <cite class="quote-author" id="author">
             - Steve Jobs
             <span class="quote-category">Motivation</span>
-          </div>
+          </cite>
         </section>
-        <section class="controls">
+        <section class="controls" aria-label="Quote Controls">
           <div class="movers">
             <button class="btn prev">
               <span class="btn-icon">⏮️</span>Previous
@@ -51,7 +72,7 @@
           </button>
         </section>
 
-        <section class="stats">
+        <section class="stats" aria-label="Quote Statistics">
           <div class="stats-item">
             <span>📚</span>
             <span class="total-quotes">0 Quotes</span>
