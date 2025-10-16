@@ -18,6 +18,12 @@
   --border-hover: #505050;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-hover: 0 2px 6px rgba(0, 0, 0, 0.4);
+
+  /* Mobile-first Based Responsive Units */
+  --font-size-sm: clamp(1.125rem, 0.5rem + 1.5vw, 1.5rem);
+  --font-size-lg: clamp(1.5rem, 0.5rem + 1.5vw, 2rem);
+  --font-size-xl: clamp(2rem, 0.8rem + 3vw, 3.25rem);
+  --font-size-2xl: clamp(2.25rem, 1rem + 3vw, 3.5rem);
 }
 
 body {
@@ -44,16 +50,16 @@ header {
 }
 
 header .logo {
-  font-size: 3rem;
+  font-size: var(--font-size-2xl);
 }
 
 header h1 {
-  font-size: 2.5rem;
+  font-size: var(--font-size-xl);
 }
 
 header .subtitle {
   color: var(--text-secondary);
-  font-size: 1.15rem;
+  font-size: var(--font-size-sm);
 }
 
 .main-content {
@@ -71,13 +77,13 @@ header .subtitle {
 
 .main-content .category-btn {
   padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  font-size: var(--font-size-sm);
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
   border-radius: 10px;
   border: 1px solid var(--border);
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
 }
 
@@ -96,14 +102,13 @@ header .subtitle {
 .main-content .quote-container {
   padding: 1rem 0.5rem;
   text-align: center;
-  font-size: 1.4rem;
   border: 1px solid var(--border);
   border-radius: 10px;
   box-shadow: var(--shadow);
 }
 
 .quote-container .quote-text {
-  font-size: 1.4rem;
+  font-size: var(--font-size-lg);
   margin-bottom: 1.5rem;
   font-weight: 400;
   position: relative;
@@ -115,7 +120,7 @@ header .subtitle {
   position: absolute;
   left: 0;
   top: -0.5rem;
-  font-size: 3rem;
+  font-size: var(--font-size-2xl);
   color: var(--accent-primary);
   opacity: 0.3;
   font-family: serif;
@@ -126,14 +131,14 @@ header .subtitle {
   position: absolute;
   right: 0;
   top: -0.5rem;
-  font-size: 3rem;
+  font-size: var(--font-size-2xl);
   color: var(--accent-primary);
   opacity: 0.3;
   font-family: serif;
 }
 
 .quote-container .quote-author {
-  font-size: 1rem;
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
   font-weight: 500;
   display: flex;
@@ -146,7 +151,7 @@ header .subtitle {
   padding: 0.25rem 0.75rem;
   background: var(--bg-secondary);
   border-radius: 20px;
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
   margin-left: 1rem;
 }
@@ -168,7 +173,7 @@ header .subtitle {
   border-radius: 10px;
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 1.25rem;
+  font-size: var(--font-size-lg);
   font-weight: 500;
   text-shadow: var(--shadow);
   cursor: pointer;
@@ -186,7 +191,7 @@ header .subtitle {
 }
 
 .btn-icon {
-  font-size: 1.1em;
+  font-size: var(--font-size-sm);
 }
 
 .main-content .stats {
@@ -195,7 +200,7 @@ header .subtitle {
   justify-content: center;
   margin-top: 1.5rem;
   color: var(--text-tertiary);
-  font-size: 1rem;
+  font-size: var(--font-size-sm);
 }
 .stats .stats-item {
   display: flex;
@@ -203,5 +208,5 @@ header .subtitle {
   gap: 0.5rem;
 }
 .stats .stats-item span:first-child {
-  font-size: 1.5rem;
+  font-size: var(--font-size-lg);
 }
