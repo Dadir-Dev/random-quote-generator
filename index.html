@@ -7,57 +7,62 @@
     <title>Random Quote Generator</title>
   </head>
   <body>
-    <header>
-      <div class="logo">🌿</div>
-      <h1>Quote Garden</h1>
-      <p class="subtitle">Curated Wisdom for every moment</p>
-    </header>
-    <main class="main-content">
-      <div class="categories" id="categories">
-        <button class="categories-btn">All</button>
-        <button class="categories-btn">Motivation</button>
-        <button class="categories-btn">Innovation</button>
-        <button class="categories-btn">Life</button>
-        <button class="categories-btn">Dreams</button>
-        <button class="categories-btn">Happiness</button>
-        <button class="categories-btn">Love</button>
-        <button class="categories-btn">Programming</button>
-      </div>
-      <div class="quote-container">
-        <div class="quote">
-          "Your time is limited, so don't waste it living someone else's life."
-        </div>
-        <div class="author">
-          - Steve Jobs <span class="category">Motivation</span>
-        </div>
-      </div>
-      <div class="controls">
-        <div class="movers">
-          <button class="btn prev">
-            <span class="btn-icon">⏮️</span>Previous
+    <div class="container">
+      <header>
+        <div class="logo">🌿</div>
+        <h1>Quote Garden</h1>
+        <p class="subtitle">Curated Wisdom for every moment</p>
+      </header>
+      <main class="main-content">
+        <section class="categories" id="categories">
+          <button class="category-btn active">All</button>
+          <button class="category-btn">Motivation</button>
+          <button class="category-btn">Innovation</button>
+          <button class="category-btn">Life</button>
+          <button class="category-btn">Dreams</button>
+          <button class="category-btn">Happiness</button>
+          <button class="category-btn">Love</button>
+          <button class="category-btn">Programming</button>
+        </section>
+        <section class="quote-container">
+          <div class="quote-text" id="quote">
+            Your time is limited, so don't waste it living someone else's life.
+          </div>
+          <div class="quote-author" id="author">
+            - Steve Jobs
+            <span class="quote-category">Motivation</span>
+          </div>
+        </section>
+        <section class="controls">
+          <div class="movers">
+            <button class="btn prev">
+              <span class="btn-icon">⏮️</span>Previous
+            </button>
+            <button class="btn next">
+              <span class="btn-icon">⏭️</span>Next
+            </button>
+          </div>
+          <button class="btn theme">
+            <span class="btn-icon">🎨</span>
+            Theme
           </button>
-          <button class="btn next"><span class="btn-icon">⏭️</span>Next</button>
-        </div>
-        <button class="btn theme">
-          <span class="btn-icon">🎨</span>
-          Theme
-        </button>
-        <button class="btn copy">
-          <span class="btn-icon">📋</span>Copy Quote
-        </button>
-      </div>
+          <button class="btn copy">
+            <span class="btn-icon">📋</span>Copy Quote
+          </button>
+        </section>
 
-      <div class="stats">
-        <div class="stats-item">
-          <span>📚</span>
-          <span class="total-quotes">0 Quotes</span>
-        </div>
-        <div class="stats-item">
-          <span>🕯️</span>
-          <span class="active-category">Happiness</span>
-        </div>
-      </div>
-    </main>
-    <footer></footer>
+        <section class="stats">
+          <div class="stats-item">
+            <span>📚</span>
+            <span class="total-quotes">0 Quotes</span>
+          </div>
+          <div class="stats-item">
+            <span>🕯️</span>
+            <span class="active-category">Happiness</span>
+          </div>
+        </section>
+      </main>
+      <footer></footer>
+    </div>
   </body>
 </html>
