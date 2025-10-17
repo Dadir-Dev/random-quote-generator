@@ -30,12 +30,12 @@
           <button class="category-btn" aria-label="Category: Motivation">
             Motivation
           </button>
-          <button class="category-btn" aria-label="Category: Innovation">
-            Innovation
+          <button class="category-btn" aria-label="Category: Philosophy">
+            Philosophy
           </button>
           <button class="category-btn" aria-label="Category: Life">Life</button>
-          <button class="category-btn" aria-label="Category: Dreams">
-            Dreams
+          <button class="category-btn" aria-label="Category: Personal Finance">
+            Personal Finance
           </button>
           <button class="category-btn" aria-label="Category: Happiness">
             Happiness
@@ -44,30 +44,33 @@
           <button class="category-btn" aria-label="Category: Programming">
             Programming
           </button>
+          <button class="category-btn" aria-label="Category: Entrepreneurship">
+            Entrepreneurship
+          </button>
         </section>
         <section class="quote-container" aria-labelledby="quote">
-          <blockquote class="quote-text" id="quote">
+          <blockquote class="quote-text js-quote-text" id="quote-text">
             Your time is limited, so don't waste it living someone else's life.
           </blockquote>
-          <cite class="quote-author" id="author">
+          <cite class="quote-author js-quote-author" id="author">
             - Steve Jobs
-            <span class="quote-category">Motivation</span>
+            <span class="quote-category js-quote-category">Motivation</span>
           </cite>
         </section>
         <section class="controls" aria-label="Quote Controls">
           <div class="movers">
-            <button class="btn prev">
+            <button class="btn prev js-prev-btn">
               <span class="btn-icon">⏮️</span>Previous
             </button>
-            <button class="btn next">
+            <button class="btn next js-next-btn">
               <span class="btn-icon">⏭️</span>Next
             </button>
           </div>
-          <button class="btn theme">
+          <button class="btn theme js-theme-toggle">
             <span class="btn-icon">🎨</span>
             Theme
           </button>
-          <button class="btn copy">
+          <button class="btn copy js-copy-quote">
             <span class="btn-icon">📋</span>Copy Quote
           </button>
         </section>
@@ -75,11 +78,11 @@
         <section class="stats" aria-label="Quote Statistics">
           <div class="stats-item">
             <span>📚</span>
-            <span class="total-quotes">0 Quotes</span>
+            <span class="total-quotes js-total-quotes">0 Quotes</span>
           </div>
           <div class="stats-item">
             <span>🕯️</span>
-            <span class="active-category">Happiness</span>
+            <span class="active-category js-active-category">Happiness</span>
           </div>
         </section>
       </main>
