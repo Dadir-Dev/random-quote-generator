@@ -240,6 +240,7 @@ const quotes = [
 let quoteHistory = JSON.parse(localStorage.getItem("quoteHistory")) || [];
 let currentCategory = "All";
 let isDarkTheme = true;
+let historyPointer = quoteHistory.length - 1;
 
 // Functions
 function displayQuote(quoteObject) {
@@ -269,4 +270,25 @@ function getRandomQuote(category) {
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
   const randomQuote = filteredQuotes[randomIndex];
   return randomQuote;
+}
+
+function saveQuote(quote) {
+  if (!quote) return;
+
+  //check if that quote already exists in history (avoiding duplicates)
+  const exists = quoteHistory.some(
+    (q) => q.text === quote.text && q.author === quote.author
+  );
+
+  // If it’s new, it pushes it into quoteHistory and saves the updated array into localStorage.
+  if (!exists) {
+    quoteHistory.push(quote);
+    localStorage.setItem("quoteHistory", JSON.stringify(quote));
+  }
+}
+
+function updateQuote(newQuote) {
+  displayQuote(newQuote);
+  saveQuote(newQuote);
+  historyPointer = quoteHistory.length - 1;
 }
