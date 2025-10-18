@@ -8,6 +8,7 @@ const themeToggle = document.querySelector(".js-theme-toggle");
 const copyBtn = document.querySelector(".js-copy-quote");
 const totalQuotes = document.querySelector(".js-total-quotes");
 const activeCategory = document.querySelector(".js-active-category");
+const categoryButtons = document.querySelectorAll("catogory-btn");
 
 // Sample Quotes Data
 
@@ -234,16 +235,21 @@ const quotes = [
   },
 ];
 
-let currentQuoteIndex = 0;
-let filteredQuotes = [...quotes];
+// State Variables
+
+let quoteHistory = JSON.parse(localStorage.getItem("quoteHistory")) || [];
 let currentCategory = "All";
 let isDarkTheme = true;
 
 // Functions
 function displayQuote(quoteObject) {
+  if (!quoteObject) return;
+
   quoteText.textContent = quoteObject.text;
-  author.textContent = quoteObject.author;
+  author.textContent = `- ${quoteObject.author}`;
   quoteCategory.textContent = quoteObject.category;
+  activeCategory.textContent = quoteObject.category;
+  totalQuotes.textContent = quoteObject.length;
 }
 
 function getRandomQuote(category) {
@@ -264,9 +270,3 @@ function getRandomQuote(category) {
   const randomQuote = filteredQuotes[randomIndex];
   return randomQuote;
 }
-
-console.log(getRandomQuote("All"));
-console.log(getRandomQuote("motivation"));
-console.log(getRandomQuote("philosophy"));
-console.log(getRandomQuote("personal finance"));
-console.log(getRandomQuote("personal finance"));
