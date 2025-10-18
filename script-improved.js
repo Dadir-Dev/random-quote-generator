@@ -276,9 +276,21 @@ function saveQuote(quote) {
   if (!quote) return;
 
   //check if that quote already exists in history (avoiding duplicates)
+  /*
   const exists = quoteHistory.some(
     (q) => q.text === quote.text && q.author === quote.author
   );
+  */
+
+  const last = quoteHistory[quoteHistory.length - 1];
+  if (
+    last &&
+    last.text === quoteObject.text &&
+    last.author === quoteObject.author
+  ) {
+    // don't save duplicate consecutive entries
+    return;
+  }
 
   // If it’s new, it pushes it into quoteHistory and saves the updated array into localStorage.
   if (!exists) {
