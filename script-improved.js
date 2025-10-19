@@ -352,3 +352,20 @@ categoryButtons.forEach((button) => {
     updateQuote(randomQuote);
   });
 });
+
+// Copy to clipboard
+copyBtn.addEventListener("click", () => {
+  const quoteToCopy = `"${quoteText.textContent}"  ${author.textContent}`;
+  navigator.clipboard.writeText(quoteToCopy).then(() => {
+    copyBtn.textContent = "Copied!";
+    setTimeout(() => {
+      copyBtn.textContent = "📋Copy Quote";
+    }, 1500);
+  });
+});
+
+themeToggle.addEventListener("click", () => {
+  isDarkTheme = !isDarkTheme;
+  document.body.classList.toggle("dark-theme", isDarkTheme);
+  localStorage.setItem("isDarkTheme", JSON.stringify(isDarkTheme));
+});
