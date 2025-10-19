@@ -239,7 +239,7 @@ const quotes = [
 
 let quoteHistory = JSON.parse(localStorage.getItem("quoteHistory")) || [];
 let currentCategory = "All";
-let isDarkTheme = true;
+let isDarkTheme = false;
 let historyPointer = quoteHistory.length - 1;
 
 // Functions
@@ -265,10 +265,8 @@ function getRandomQuote(category) {
     return null;
   }
 
-  /*
   // Update total quotes display
   totalQuotes.textContent = filteredQuotes.length;
-  */
 
   // Pick random quote from the filtered list
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
@@ -368,4 +366,19 @@ themeToggle.addEventListener("click", () => {
   isDarkTheme = !isDarkTheme;
   document.body.classList.toggle("dark-theme", isDarkTheme);
   localStorage.setItem("isDarkTheme", JSON.stringify(isDarkTheme));
+});
+
+// On page load
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = JSON.parse(localStorage.getItem("isDarkTheme"));
+  if (savedTheme !== null) {
+    isDarkTheme = savedTheme;
+    document.body.classList.toggle("dark-theme", isDarkTheme);
+  }
+  if (quoteHistory.length > 0) {
+    displayQuote(quoteHistory[historyPointer]);
+  } else {
+    const randomQuote = getRandomQuote(currentCategory);
+    updateQuote(randomQuote);
+  }
 });
