@@ -250,7 +250,6 @@ function displayQuote(quoteObject) {
   author.textContent = `- ${quoteObject.author}`;
   quoteCategory.textContent = quoteObject.category;
   activeCategory.textContent = quoteObject.category;
-  totalQuotes.textContent = quoteObject.length;
 }
 
 function getRandomQuote(category) {
@@ -266,6 +265,8 @@ function getRandomQuote(category) {
     return null;
   }
 
+  totalQuotes.textContent = filteredQuotes.length;
+
   // Pick random quote from the filtered list
   const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
   const randomQuote = filteredQuotes[randomIndex];
@@ -276,12 +277,12 @@ function saveQuote(quote) {
   if (!quote) return;
 
   //check if that quote already exists in history (avoiding duplicates)
-  /*
+
   const exists = quoteHistory.some(
     (q) => q.text === quote.text && q.author === quote.author
   );
-  */
 
+  /*
   const last = quoteHistory[quoteHistory.length - 1];
   if (
     last &&
@@ -291,12 +292,12 @@ function saveQuote(quote) {
     // don't save duplicate consecutive entries
     return;
   }
+     */
 
   // If it’s new, it pushes it into quoteHistory and saves the updated array into localStorage.
-  if (!exists) {
-    quoteHistory.push(quote);
-    localStorage.setItem("quoteHistory", JSON.stringify(quote));
-  }
+
+  quoteHistory.push(quote);
+  localStorage.setItem("quoteHistory", JSON.stringify(quote));
 }
 
 function updateQuote(newQuote) {
@@ -304,3 +305,23 @@ function updateQuote(newQuote) {
   saveQuote(newQuote);
   historyPointer = quoteHistory.length - 1;
 }
+
+// Event Listeners
+
+nextBtn.addEventListener("click", () => {
+  const randomQuote = getRandomQuote(currentCategory);
+  updateQuote(randomQuote);
+  console.log(quoteHistory);
+});
+
+prevBtn.addEventListener("click", () => {
+  if (historyPointer > 0) {
+    historyPointer--;
+    const prevQuote = quoteHistory[historyPointer];
+    displayQuote(prevQuote);
+  } else {
+    console.warn("No previous quotes in history");
+  }
+});
+
+console.log(quoteHistory);
