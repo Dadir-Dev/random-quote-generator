@@ -303,6 +303,38 @@ header .subtitle {
   text-align: center;
 }
 
+/* Notification Styles */
+
+.notification {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  font-size: var(--font-size-sm);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--shadow-hover);
+  transform: translateX(400px);
+  transition: transform 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.notification.show {
+  transform: translateX(0);
+}
+
+.notification.success {
+  border-left: 4px solid #10b981;
+}
+
+.notification.error {
+  border-left: 4px solid #ef4444;
+}
+
 .dark-theme {
   background: var(--bg-primary);
 }

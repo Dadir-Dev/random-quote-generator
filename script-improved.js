@@ -9,6 +9,7 @@ const copyBtn = document.querySelector(".js-copy-quote");
 const totalQuotes = document.querySelector(".js-total-quotes");
 const activeCategory = document.querySelector(".js-active-category");
 const categoryButtons = document.querySelectorAll(".category-btn");
+const notification = document.getElementById("notification");
 
 // Sample Quotes Data
 
@@ -235,12 +236,30 @@ const quotes = [
   },
 ];
 
-// State Variables
-
+// State Management
+/*
+let state = {
+  currentQuote: null,
+  activeCategory: "all",
+  filteredQuotes: [...quotes],
+  categories: [
+    "All",
+    "Motivation",
+    "Philosophy",
+    "Life",
+    "Personal Finance",
+    "Happiness",
+    "Love",
+    "Programming",
+    "Entrepreneurship",
+  ],
+};
+*/
 let quoteHistory = JSON.parse(localStorage.getItem("quoteHistory")) || [];
 let currentCategory = "All";
 let isDarkTheme = false;
 let historyPointer = quoteHistory.length - 1;
+let currentQuote = null;
 
 // Functions
 function displayQuote(quoteObject) {
@@ -284,6 +303,7 @@ function getRandomQuote(category) {
   }
   */
   const randomQuote = filteredQuotes[randomIndex];
+  currentQuote = randomQuote;
   return randomQuote;
 }
 
@@ -322,6 +342,34 @@ function updateQuote(newQuote) {
   historyPointer = quoteHistory.length - 1;
 }
 
+// Copy to clipboard
+function copyToClipboard() {
+  if (!currentQuote) {
+    showNotification("Generate a quote first!", "error");
+    return;
+  }
+
+  const quoteText = `"${currentQuote.text}" — ${currentQuote.author}`;
+
+  navigator.clipboard
+    .writeText(quoteText)
+    .then(() => {
+      showNotification("Quote copied to clipboard!", "success");
+    })
+    .catch(() => {
+      showNotification("Failed to copy quote", "error");
+    });
+}
+
+// Show notification
+function showNotification(message, type = "success") {
+  notification.textContent = message;
+  notification.className = `notification ${type} show`;
+
+  setTimeout(() => {
+    notification.className = "notification";
+  }, 3000);
+}
 // Event Listeners
 
 nextBtn.addEventListener("click", () => {
@@ -352,6 +400,7 @@ categoryButtons.forEach((button) => {
 });
 
 // Copy to clipboard
+/*
 copyBtn.addEventListener("click", () => {
   const quoteToCopy = `"${quoteText.textContent}"  ${author.textContent}`;
   navigator.clipboard.writeText(quoteToCopy).then(() => {
@@ -361,6 +410,9 @@ copyBtn.addEventListener("click", () => {
     }, 1500);
   });
 });
+*/
+
+copyBtn.addEventListener("click", copyToClipboard);
 
 themeToggle.addEventListener("click", () => {
   isDarkTheme = !isDarkTheme;
@@ -377,8 +429,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (quoteHistory.length > 0) {
     displayQuote(quoteHistory[historyPointer]);
+    currentQuote = quoteHistory[historyPointer];
   } else {
     const randomQuote = getRandomQuote(currentCategory);
+    currentQuote = randomQuote;
     updateQuote(randomQuote);
   }
 });
