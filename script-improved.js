@@ -393,7 +393,11 @@ console.log(quoteHistory);
 // Category Buttons Event Listeners
 categoryButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    currentCategory = button.dataset.category;
+    currentCategory = button.dataset.category ? button.dataset.category : "All";
+    // update active class
+    categoryButtons.forEach((btn) => btn.classList.remove("active"));
+    button.classList.add("active");
+
     const randomQuote = getRandomQuote(currentCategory);
     updateQuote(randomQuote);
   });
