@@ -274,6 +274,9 @@ function initializeApp() {
 
   // Update statistics
   updateStatistics();
+
+  // Set all event listeners
+  setupEventHandlers();
 }
 
 // =================
@@ -303,9 +306,15 @@ function setupEventHandlers() {
   domElements.categoryButtons.forEach((button) => {
     button.addEventListener("click", handleCategoryChange);
   });
-}
 
-setupEventHandlers();
+  // Navigation Buttons
+  domElements.nextBtn.addEventListener("click", showNextQuote);
+  domElements.prevBtn.addEventListener("click", showPreviousQuote);
+
+  // Action Buttons
+  domElements.copyBtn.addEventListener("click", copyQuoteToClipboard);
+  domElements.themeToggle.addEventListener("click", toggleTheme);
+}
 
 // =====================
 // 8. Category Filtering
@@ -359,6 +368,48 @@ function showPreviousQuote() {
     state.currentQuoteIndex = state.filteredQuotes.length - 1;
     displayCurrentQuote();
   }
+}
+
+// ========================
+// 10. Placeholder Function
+// ========================
+function copyQuoteToClipboard() {
+  const currentQuote = state.filteredQuotes[state.currentQuoteIndex];
+  if (!currentQuote) {
+    showNotification("No quote to copy!", "error");
+  }
+
+  const quoteText = `${currentQuote.text} 
+  - ${currentQuote.author}`;
+
+  // Modern Clipboard API (most browsers)
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard
+      .writeText(quoteText)
+      .then(() => {
+        showNotification("✅ Quote copied to clipboard!", "success");
+      })
+      .catch(() => {
+        showNotification("Failed to copy!", "error");
+      });
+  }
+}
+
+// =======================
+// 11. Notification System
+// =======================
+
+function showNotification(message, type = "success") {
+  const notification = domElements.notification;
+
+  // Set message and type
+  notification.textContent = message;
+  notification.className = `notification js-notification ${type} show`;
+
+  // Auto-hide after 3 seconds
+  setTimeout(() => {
+    notification.classList.remove("show");
+  }, 3000);
 }
 
 // ========================
