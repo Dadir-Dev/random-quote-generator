@@ -1,17 +1,6 @@
-// DOM Elements
-const quoteText = document.querySelector(".js-quote-text");
-const author = document.querySelector(".js-quote-author");
-const quoteCategory = document.querySelector(".js-quote-category");
-const prevBtn = document.querySelector(".js-prev-btn");
-const nextBtn = document.querySelector(".js-next-btn");
-const themeToggle = document.querySelector(".js-theme-toggle");
-const copyBtn = document.querySelector(".js-copy-quote");
-const totalQuotes = document.querySelector(".js-total-quotes");
-const activeCategory = document.querySelector(".js-active-category");
-const categoryButtons = document.querySelectorAll(".category-btn");
-const notification = document.getElementById("notification");
-
-// Sample Quotes Data
+//=======================
+// 1. Sample Quotes Data
+//======================
 
 const quotes = [
   // Motivation
@@ -235,12 +224,13 @@ const quotes = [
     category: "Entrepreneurship",
   },
 ];
+// ===================
+// 2. State Management
+// ===================
 
-// State Management
-/*
 let state = {
-  currentQuote: null,
-  activeCategory: "all",
+  currentQuoteIndex: 0,
+  currentCategory: "All",
   filteredQuotes: [...quotes],
   categories: [
     "All",
@@ -254,189 +244,20 @@ let state = {
     "Entrepreneurship",
   ],
 };
-*/
-let quoteHistory = JSON.parse(localStorage.getItem("quoteHistory")) || [];
-let currentCategory = "All";
-let isDarkTheme = false;
-let historyPointer = quoteHistory.length - 1;
-let currentQuote = null;
 
-// Functions
-function displayQuote(quoteObject) {
-  if (!quoteObject) return;
+//=================
+// 3. DOM Elements
+//=================
 
-  quoteText.textContent = quoteObject.text;
-  author.textContent = `- ${quoteObject.author}`;
-  quoteCategory.textContent = quoteObject.category;
-  activeCategory.textContent = quoteObject.category;
-}
-
-function getRandomQuote(category) {
-  // Filter quotes based on the given category
-  const filteredQuotes =
-    category === "All" // Use all quotes if category is "All"
-      ? quotes
-      : quotes.filter((quote) => quote.category === category);
-
-  // Handle case where no quotes exist for this category
-  if (filteredQuotes.length === 0) {
-    console.warn(`No quotes found for category: ${category}`);
-    return null;
-  }
-
-  // Update total quotes display
-  totalQuotes.textContent = filteredQuotes.length;
-
-  // Pick random quote from the filtered list
-  const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-  /*
-  // check if the quote is in quoteHistory to avoid immediate repeats
-  const isRepeated = quoteHistory.some(
-    (q) =>
-      q.text === filteredQuotes[randomIndex].text &&
-      q.author === filteredQuotes[randomIndex].author
-  );
-
-  if (isRepeated) {
-    // If the quote is repeated, pick another random quote
-    return getRandomQuote(category);
-  }
-  */
-  const randomQuote = filteredQuotes[randomIndex];
-  currentQuote = randomQuote;
-  return randomQuote;
-}
-
-function saveQuote(quote) {
-  if (!quote) return;
-
-  //check if that quote already exists in history (avoiding duplicates)
-
-  const exists = quoteHistory.some(
-    (q) => q.text === quote.text && q.author === quote.author
-  );
-
-  if (!exists) {
-    // If it’s new, it pushes it into quoteHistory and saves the updated array into localStorage.
-
-    quoteHistory.push(quote);
-    localStorage.setItem("quoteHistory", JSON.stringify(quoteHistory));
-  }
-
-  /*
-  const last = quoteHistory[quoteHistory.length - 1];
-  if (
-    last &&
-    last.text === quoteObject.text &&
-    last.author === quoteObject.author
-  ) {
-    // don't save duplicate consecutive entries
-    return;
-  }
-     */
-}
-
-function updateQuote(newQuote) {
-  displayQuote(newQuote);
-  saveQuote(newQuote);
-  historyPointer = quoteHistory.length - 1;
-}
-
-// Copy to clipboard
-function copyToClipboard() {
-  if (!currentQuote) {
-    showNotification("Generate a quote first!", "error");
-    return;
-  }
-
-  const quoteText = `"${currentQuote.text}" — ${currentQuote.author}`;
-
-  navigator.clipboard
-    .writeText(quoteText)
-    .then(() => {
-      showNotification("Quote copied to clipboard!", "success");
-    })
-    .catch(() => {
-      showNotification("Failed to copy quote", "error");
-    });
-}
-
-// Show notification
-function showNotification(message, type = "success") {
-  notification.textContent = message;
-  notification.className = `notification ${type} show`;
-
-  setTimeout(() => {
-    notification.className = "notification";
-  }, 3000);
-}
-// Event Listeners
-
-nextBtn.addEventListener("click", () => {
-  const randomQuote = getRandomQuote(currentCategory);
-  updateQuote(randomQuote);
-  console.log(quoteHistory);
-});
-
-prevBtn.addEventListener("click", () => {
-  if (historyPointer > 0) {
-    historyPointer--;
-    const prevQuote = quoteHistory[historyPointer];
-    displayQuote(prevQuote);
-  } else {
-    console.warn("No previous quotes in history");
-  }
-});
-
-console.log(quoteHistory);
-
-// Category Buttons Event Listeners
-categoryButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    currentCategory = button.dataset.category ? button.dataset.category : "All";
-    // update active class
-    categoryButtons.forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
-
-    const randomQuote = getRandomQuote(currentCategory);
-    updateQuote(randomQuote);
-  });
-});
-
-// Copy to clipboard
-/*
-copyBtn.addEventListener("click", () => {
-  const quoteToCopy = `"${quoteText.textContent}"  ${author.textContent}`;
-  navigator.clipboard.writeText(quoteToCopy).then(() => {
-    copyBtn.textContent = "Copied!";
-    setTimeout(() => {
-      copyBtn.textContent = "📋Copy Quote";
-    }, 1500);
-  });
-});
-*/
-
-copyBtn.addEventListener("click", copyToClipboard);
-
-themeToggle.addEventListener("click", () => {
-  isDarkTheme = !isDarkTheme;
-  document.body.classList.toggle("dark-theme", isDarkTheme);
-  localStorage.setItem("isDarkTheme", JSON.stringify(isDarkTheme));
-});
-
-// On page load
-document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = JSON.parse(localStorage.getItem("isDarkTheme"));
-  if (savedTheme !== null) {
-    isDarkTheme = savedTheme;
-    document.body.classList.toggle("dark-theme", isDarkTheme);
-  }
-  if (quoteHistory.length > 0) {
-    displayQuote(quoteHistory[historyPointer]);
-    currentQuote = quoteHistory[historyPointer];
-  } else {
-    const randomQuote = getRandomQuote(currentCategory);
-    currentQuote = randomQuote;
-    updateQuote(randomQuote);
-  }
-});
+const domElements = {
+  quoteText: document.querySelector(".js-quote-text"),
+  author: document.querySelector(".js-quote-author"),
+  quoteCategory: document.querySelector(".js-quote-category"),
+  prevBtn: document.querySelector(".js-prev-btn"),
+  nextBtn: document.querySelector(".js-next-btn"),
+  themeToggle: document.querySelector(".js-theme-toggle"),
+  copyBtn: document.querySelector(".js-copy-quote"),
+  totalQuotes: document.querySelector(".js-total-quotes"),
+  activeCategory: document.querySelector(".js-active-category"),
+  notification: document.getElementById("notification"),
+};
