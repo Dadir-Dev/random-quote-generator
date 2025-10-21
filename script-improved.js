@@ -261,3 +261,39 @@ const domElements = {
   activeCategory: document.querySelector(".js-active-category"),
   notification: document.getElementById("notification"),
 };
+
+// ===========================
+// 4. Initialization Functions
+// ===========================
+function initializeApp() {
+  console.log("🚀 Quote Generator Initialized!");
+
+  // Display first quote
+  displayCurrentQuote();
+
+  // Update statistics
+  updateStatistics();
+}
+
+// =================
+// 5. Core Functions
+// =================
+function displayCurrentQuote() {
+  const quote = state.filteredQuotes[state.currentQuoteIndex];
+
+  if (quote) {
+    domElements.quoteText.textContent = quote.text;
+    domElements.author.textContent = quote.author;
+    domElements.quoteCategory.textContent = quote.category;
+  }
+}
+
+function updateStatistics() {
+  domElements.totalQuotes.textContent = `${state.filteredQuotes.length} Quotes`;
+  domElements.activeCategory.textContent = state.currentCategory;
+}
+
+// ========================
+// 6. Start the Application
+// ========================
+document.addEventListener("DOMContentLoaded", initializeApp);
