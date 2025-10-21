@@ -313,7 +313,6 @@ setupEventHandlers();
 function handleCategoryChange(event) {
   const selectedCategory = event.target.dataset.category || "All";
   state.currentCategory = selectedCategory;
-  console.log(selectedCategory);
 
   // update active button styling
   domElements.categoryButtons.forEach((btn) => btn.classList.remove("active"));
@@ -326,7 +325,40 @@ function handleCategoryChange(event) {
       ? [...quotes]
       : quotes.filter((quote) => quote.category === selectedCategory);
 
-  console.log(state.filteredQuotes);
+  // Reset to first quote in category
+  state.currentQuoteIndex = 0;
+  state.currentCategory = selectedCategory;
+
+  // update UI
+  displayCurrentQuote();
+  updateStatistics();
+  console.log(`Category Changed to: ${selectedCategory}`);
+}
+
+// ===================
+// 9. Quote Navigation
+// ===================
+
+function showNextQuote() {
+  if (state.currentQuoteIndex < state.filteredQuotes.length - 1) {
+    state.currentQuoteIndex++;
+    displayCurrentQuote();
+  } else {
+    // Loop back to first quote
+    state.currentQuoteIndex = 0;
+    displayCurrentQuote();
+  }
+}
+
+function showPreviousQuote() {
+  if (state.currentQuoteIndex > 0) {
+    state.currentQuoteIndex--;
+    displayCurrentQuote();
+  } else {
+    // loop back to last quote
+    state.currentQuoteIndex = state.filteredQuotes.length - 1;
+    displayCurrentQuote();
+  }
 }
 
 // ========================
