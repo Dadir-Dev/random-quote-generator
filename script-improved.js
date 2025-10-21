@@ -231,7 +231,7 @@ const quotes = [
 let state = {
   currentQuoteIndex: 0,
   currentCategory: "All",
-  filteredQuotes: [...quotes],
+  filteredQuotes: [...quotes], // Copy of all quotes
   categories: [
     "All",
     "Motivation",
@@ -253,6 +253,7 @@ const domElements = {
   quoteText: document.querySelector(".js-quote-text"),
   author: document.querySelector(".js-quote-author"),
   quoteCategory: document.querySelector(".js-quote-category"),
+  categoryButtons: document.querySelectorAll(".js-category-btn"),
   prevBtn: document.querySelector(".js-prev-btn"),
   nextBtn: document.querySelector(".js-next-btn"),
   themeToggle: document.querySelector(".js-theme-toggle"),
@@ -283,7 +284,7 @@ function displayCurrentQuote() {
 
   if (quote) {
     domElements.quoteText.textContent = quote.text;
-    domElements.author.textContent = quote.author;
+    domElements.author.textContent = `- ${quote.author}`;
     domElements.quoteCategory.textContent = quote.category;
   }
 }
@@ -291,6 +292,41 @@ function displayCurrentQuote() {
 function updateStatistics() {
   domElements.totalQuotes.textContent = `${state.filteredQuotes.length} Quotes`;
   domElements.activeCategory.textContent = state.currentCategory;
+}
+
+// ===================================
+// 7. Event Handlers and Interactivity
+// ===================================
+
+function setupEventHandlers() {
+  // Category Filtering
+  domElements.categoryButtons.forEach((button) => {
+    button.addEventListener("click", handleCategoryChange);
+  });
+}
+
+setupEventHandlers();
+
+// =====================
+// 8. Category Filtering
+// =====================
+function handleCategoryChange(event) {
+  const selectedCategory = event.target.dataset.category || "All";
+  state.currentCategory = selectedCategory;
+  console.log(selectedCategory);
+
+  // update active button styling
+  domElements.categoryButtons.forEach((btn) => btn.classList.remove("active"));
+  event.target.classList.add("active");
+
+  // Filter Quotes Based on Category
+
+  state.filteredQuotes =
+    state.currentCategory === "All"
+      ? [...quotes]
+      : quotes.filter((quote) => quote.category === selectedCategory);
+
+  console.log(state.filteredQuotes);
 }
 
 // ========================
