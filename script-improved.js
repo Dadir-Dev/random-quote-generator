@@ -321,7 +321,8 @@ function setupEventHandlers() {
 // =====================
 function handleCategoryChange(event) {
   const selectedCategory = event.target.dataset.category || "All";
-  state.currentCategory = selectedCategory;
+
+  // console.log(event.target); // gives clicked button element
 
   // update active button styling
   domElements.categoryButtons.forEach((btn) => btn.classList.remove("active"));
@@ -412,6 +413,61 @@ function showNotification(message, type = "success") {
   }, 3000);
 }
 
+// ==============================
+// 12. Toggle Theme Functionality
+// ==============================
+function toggleTheme() {
+  isDark = document.body.classList.contains("dark-theme");
+
+  if (isDark) {
+    enableLightTheme();
+  } else {
+    enableDarkTheme();
+  }
+}
+
+function enableLightTheme() {
+  document.body.classList.remove("dark-theme");
+  updateThemeVariables("light");
+  domElements.themeToggle.innerHTML = `<span class="btn-icond">🌙</span> Dark Mode`;
+  showNotification("Light theme activated");
+  console.log("Light theme activated");
+}
+
+function enableDarkTheme() {
+  document.body.classList.add("dark-theme");
+  updateThemeVariables("dark");
+  domElements.themeToggle.innerHTML = `<span class="btn-icon">☀️</span>Light Mode`;
+  showNotification("Dark theme activated");
+  console.log("Dark mode activated");
+}
+
+function updateThemeVariables(theme) {
+  const root = document.documentElement;
+
+  if (theme === "light") {
+    root.style.setProperty("--bg-primary", "#ffffff");
+    root.style.setProperty("--bg-secondary", "#2a2a2a");
+    root.style.setProperty("--bg-tertiary", "#f0f0f0");
+    root.style.setProperty("--text-primary", "#37352f");
+    root.style.setProperty("--text-secondary", "#f2f2f2");
+    root.style.setProperty("--text-tertiary", "#242424ff");
+    root.style.setProperty("--border", "#e9e9e7");
+    root.style.setProperty("--border-hover", "#d9d9d7");
+  } else {
+    root.style.setProperty(
+      "--bg-primary",
+      "linear-gradient(135deg, #1a1a1a, #222)"
+    );
+    root.style.setProperty("--bg-secondary", "#2a2a2a");
+    root.style.setProperty("--bg-tertiary", "#363636");
+    root.style.setProperty("--text-primary", "#ffffff");
+    root.style.setProperty("--text-secondary", "#a0a0a0");
+    root.style.setProperty("--text-tertiary", "#999");
+    root.style.setProperty("--border", "#404040");
+    root.style.setProperty("--border-hover", "#505050");
+  }
+}
 // ========================
 // 6. Start the Application
 // ========================
