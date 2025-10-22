@@ -8,9 +8,9 @@
   --bg-primary: linear-gradient(135deg, #1a1a1a, #222);
   --bg-secondary: #2a2a2a;
   --bg-tertiary: #363636;
-  --text-primary: #ffffff;
+  --text-primary: #37352f;
   --text-secondary: #a0a0a0;
-  --text-tertiary: #999;
+  --text-tertiary: #242424ff;
   --accent-primary: #2eaadc;
   --accent-secondary: #4f6bed;
   --accent-tertiary: #6b7bde;
@@ -51,9 +51,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /*  
   background-image: url("/assets/pexels-francesco-ungaro-1671325.jpg");
   background-size: cover;
   background-position: bottom;
+  */
 }
 
 .container {
@@ -144,7 +146,7 @@ header .subtitle {
   left: 0;
   top: -0.5rem;
   font-size: var(--font-size-2xl);
-  color: var(--accent-primary);
+  color: var(--text-primary);
   opacity: 0.3;
   font-family: serif;
 }
@@ -155,7 +157,7 @@ header .subtitle {
   right: 0;
   top: -0.5rem;
   font-size: var(--font-size-2xl);
-  color: var(--accent-primary);
+  color: var(--text-primary);
   opacity: 0.3;
   font-family: serif;
 }
@@ -195,7 +197,7 @@ header .subtitle {
   border: 1px solid var(--border);
   border-radius: 10px;
   color: white;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   font-size: var(--font-size-lg);
   font-weight: 500;
   text-shadow: var(--shadow);
