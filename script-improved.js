@@ -281,6 +281,9 @@ function initializeApp() {
 
   // Set all event listeners
   setupEventHandlers();
+
+  // Update navigation button states
+  updateNavigationButtons();
 }
 
 // =================
@@ -288,7 +291,7 @@ function initializeApp() {
 // =================
 function displayCurrentQuote() {
   const quote = state.filteredQuotes[state.currentQuoteIndex];
-  const quoteContainer = document.querySelector(".js-js-quote-container");
+  const quoteContainer = document.querySelector(".js-quote-container");
 
   if (!quote) {
     domElements.quoteText.textContent = "No quotes available in this category.";
@@ -297,10 +300,21 @@ function displayCurrentQuote() {
     return;
   }
 
-  // Update quote
-  domElements.quoteText.textContent = quote.text;
-  domElements.author.textContent = quote.author;
-  domElements.quoteCategory.textContent = quote.category;
+  // Add fade-out animation
+  quoteContainer.style.opacity = "0";
+  quoteContainer.style.transform = "translateY(10px)";
+
+  setTimeout(() => {
+    // Update content
+    domElements.quoteText.textContent = quote.text;
+    domElements.author.textContent = quote.author;
+    domElements.quoteCategory.textContent = quote.category;
+
+    // Add fade-in animation
+    quoteContainer.style.opacity = "1";
+    quoteContainer.style.transform = "translateY(0)";
+    quoteContainer.style.transition = "all 0.4s ease";
+  }, 200);
 }
 
 function updateStatistics() {
@@ -364,6 +378,7 @@ function showNextQuote() {
   if (state.currentQuoteIndex < state.filteredQuotes.length - 1) {
     state.currentQuoteIndex++;
     displayCurrentQuote();
+    updateNavigationButtons();
   } else {
     // Loop back to first quote
     state.currentQuoteIndex = 0;
@@ -375,11 +390,22 @@ function showPreviousQuote() {
   if (state.currentQuoteIndex > 0) {
     state.currentQuoteIndex--;
     displayCurrentQuote();
+    updateNavigationButtons();
   } else {
     // loop back to last quote
     state.currentQuoteIndex = state.filteredQuotes.length - 1;
     displayCurrentQuote();
   }
+}
+
+function updateNavigationButtons() {
+  // Update button states based on current position
+  const hasPrevious = state.currentQuoteIndex > 0;
+  const hasNext = state.currentQuoteIndex < state.filteredQuotes.length - 1;
+
+  // Visual feedback
+  domElements.prevBtn.disabled = !hasPrevious;
+  domElements.nextBtn.disabled = !hasNext;
 }
 
 // ========================
@@ -400,11 +426,23 @@ function copyQuoteToClipboard() {
       .writeText(quoteText)
       .then(() => {
         showNotification("✅ Quote copied to clipboard!", "success");
+        addCopyAnimation();
       })
       .catch(() => {
         showNotification("Failed to copy!", "error");
       });
   }
+}
+
+function addCopyAnimation() {
+  const button = domElements.copyBtn;
+  button.style.transform = "scale(0.95)";
+  button.style.background = "var(--accent-secondary)";
+
+  setTimeout(() => {
+    button.style.transform = "";
+    button.style.background = "";
+  }, 300);
 }
 
 // =======================
