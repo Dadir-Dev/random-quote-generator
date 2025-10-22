@@ -261,6 +261,7 @@ const domElements = {
   totalQuotes: document.querySelector(".js-total-quotes"),
   activeCategory: document.querySelector(".js-active-category"),
   notification: document.getElementById("notification"),
+  changeBgButton: document.querySelector(".js-change-bg"),
 };
 
 // ===========================
@@ -268,6 +269,9 @@ const domElements = {
 // ===========================
 function initializeApp() {
   console.log("🚀 Quote Generator Initialized!");
+
+  // Load saved theme preference
+  loadThemePreference();
 
   // Display first quote
   displayCurrentQuote();
@@ -284,12 +288,19 @@ function initializeApp() {
 // =================
 function displayCurrentQuote() {
   const quote = state.filteredQuotes[state.currentQuoteIndex];
+  const quoteContainer = document.querySelector(".js-js-quote-container");
 
-  if (quote) {
-    domElements.quoteText.textContent = quote.text;
-    domElements.author.textContent = `- ${quote.author}`;
-    domElements.quoteCategory.textContent = quote.category;
+  if (!quote) {
+    domElements.quoteText.textContent = "No quotes available in this category.";
+    domElements.author.textContent = "";
+    domElements.quoteCategory.textContent = "";
+    return;
   }
+
+  // Update quote
+  domElements.quoteText.textContent = quote.text;
+  domElements.author.textContent = quote.author;
+  domElements.quoteCategory.textContent = quote.category;
 }
 
 function updateStatistics() {
@@ -410,51 +421,92 @@ function showNotification(message, type = "success") {
   // Auto-hide after 3 seconds
   setTimeout(() => {
     notification.classList.remove("show");
-  }, 3000);
+  }, 1500);
 }
 
-// ==============================
-// 12. Toggle Theme Functionality
-// ==============================
-function toggleTheme() {
-  isDark = document.body.classList.contains("dark-theme");
+// ========================================
+// 12. Toggle Theme Functionality (3 MODES)
+// ========================================
 
-  if (isDark) {
-    enableLightTheme();
-  } else {
-    enableDarkTheme();
+const backgroundImages = [
+  "/assets/pexels-creative-vix-9754.jpg",
+  "/assets/pexels-francesco-ungaro-1671325.jpg",
+  "/assets/pexels-pixabay-163872.jpg",
+  "/assets/pexels-pixabay-414144 (1).jpg",
+  "/assets/pexels-veeterzy-38136.jpg",
+];
+
+let currentImageIndex = 0;
+
+function toggleTheme() {
+  const currentTheme = document.body.dataset.theme || "dark";
+  // console.log(currentTheme);
+  switch (currentTheme) {
+    case "dark":
+      enableLightTheme();
+      break;
+    case "light":
+      enableImageTheme();
+      break;
+    case "image":
+      enableDarkTheme();
+      break;
   }
 }
 
 function enableLightTheme() {
-  document.body.classList.remove("dark-theme");
+  document.body.dataset.theme = "light";
   updateThemeVariables("light");
-  domElements.themeToggle.innerHTML = `<span class="btn-icond">🌙</span> Dark Mode`;
+  hideBackgroundImageButton();
+  domElements.themeToggle.innerHTML =
+    '<span class="btn-icon">🌅</span>Switch Image Mode';
   showNotification("Light theme activated");
+  saveThemePreference("light");
   console.log("Light theme activated");
 }
 
 function enableDarkTheme() {
-  document.body.classList.add("dark-theme");
+  document.body.dataset.theme = "dark";
   updateThemeVariables("dark");
-  domElements.themeToggle.innerHTML = `<span class="btn-icon">☀️</span>Light Mode`;
+  hideBackgroundImageButton();
+  domElements.themeToggle.innerHTML = `<span class="btn-icon">☀️</span>Switch Light Mode`;
   showNotification("Dark theme activated");
+  saveThemePreference("dark");
   console.log("Dark mode activated");
+}
+
+function enableImageTheme() {
+  document.body.dataset.theme = "image";
+  updateThemeVariables("image");
+  showBackgroundImageButton();
+  domElements.themeToggle.innerHTML =
+    '<span class="btn-icon">🌙</span>Switch Dark Mode';
+  setBackgroundImage(backgroundImages[currentImageIndex]);
+  showNotification("Image theme activated");
+  saveThemePreference("image");
+  console.log("image theme activated");
 }
 
 function updateThemeVariables(theme) {
   const root = document.documentElement;
 
   if (theme === "light") {
-    root.style.setProperty("--bg-primary", "#ffffff");
-    root.style.setProperty("--bg-secondary", "#2a2a2a");
-    root.style.setProperty("--bg-tertiary", "#f0f0f0");
-    root.style.setProperty("--text-primary", "#37352f");
-    root.style.setProperty("--text-secondary", "#f2f2f2");
-    root.style.setProperty("--text-tertiary", "#242424ff");
-    root.style.setProperty("--border", "#e9e9e7");
-    root.style.setProperty("--border-hover", "#d9d9d7");
-  } else {
+    root.style.setProperty(
+      "--bg-primary",
+      "linear-gradient(135deg, #afaeaeff, #ddddddff)"
+    );
+    root.style.setProperty("--bg-secondary", "#b8b8b8ff");
+    root.style.setProperty("--bg-tertiary", "#363636");
+    root.style.setProperty("--text-primary", "#2e2e2e");
+    root.style.setProperty("--text-secondary", "#565656ff");
+    root.style.setProperty("--text-tertiary", "#e6e6e6");
+    root.style.setProperty("--border", "#404040");
+    root.style.setProperty("--border-hover", "#505050");
+
+    // Remove background image
+    document.body.style.backgroundImage = "none";
+    document.body.style.background = "var(--bg-primary)";
+  } else if (theme === "dark") {
     root.style.setProperty(
       "--bg-primary",
       "linear-gradient(135deg, #1a1a1a, #222)"
@@ -463,10 +515,95 @@ function updateThemeVariables(theme) {
     root.style.setProperty("--bg-tertiary", "#363636");
     root.style.setProperty("--text-primary", "#ffffff");
     root.style.setProperty("--text-secondary", "#a0a0a0");
-    root.style.setProperty("--text-tertiary", "#999");
+    root.style.setProperty("--text-tertiary", "#ffffffff");
     root.style.setProperty("--border", "#404040");
     root.style.setProperty("--border-hover", "#505050");
+
+    // Remove background image
+    document.body.style.backgroundImage = "none";
+    document.body.style.background = "var(--bg-primary)";
+  } else if (theme === "image") {
+    // Image theme - keep text colors readable over images
+    root.style.setProperty(
+      "--bg-primary",
+      "linear-gradient(135deg, #1a1a1a, #222)"
+    );
+    root.style.setProperty("--bg-secondary", "#2a2a2a");
+    root.style.setProperty("--text-primary", "#ffffff");
+    root.style.setProperty("--text-secondary", "#e0e0e0");
+    root.style.setProperty("--text-tertiary", "#cccccc");
+    root.style.setProperty("--border", "rgba(255,255,255,0.2)");
+    root.style.setProperty("--border-hover", "rgba(255,255,255,0.3)");
   }
+}
+
+function hideBackgroundImageButton() {
+  if (domElements.changeBgButton) {
+    domElements.changeBgButton.style.display = "none";
+  }
+}
+
+function showBackgroundImageButton() {
+  if (domElements.changeBgButton) {
+    domElements.changeBgButton.innerHTML =
+      '<span class="btn-icon">🔄</span>Change BG';
+
+    domElements.changeBgButton.style.display = "block";
+
+    domElements.changeBgButton.addEventListener("click", nextBackgroundImage);
+  }
+}
+
+function setBackgroundImage(imagePath) {
+  document.body.style.backgroundImage = `url("${imagePath}")`;
+  document.body.style.backgroundSize = "cover";
+  document.body.style.backgroundPosition = "center";
+  document.body.style.backgroundAttachment = "fixed";
+}
+
+function nextBackgroundImage() {
+  currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+  setBackgroundImage(backgroundImages[currentImageIndex]);
+  saveThemePreference("image");
+}
+
+function saveThemePreference(theme) {
+  localStorage.setItem("quoteGenerator-theme", theme);
+  localStorage.setItem(
+    "quoteGenerator-bgIndex",
+    JSON.stringify(currentImageIndex)
+  );
+}
+
+function loadThemePreference() {
+  const savedTheme = localStorage.getItem("quoteGenerator-theme") || "dark";
+  const savedBgIndex =
+    parseInt(localStorage.getItem("quoteGenerator-bgIndex")) || 0;
+  currentImageIndex = savedBgIndex;
+  switch (savedTheme) {
+    case "light":
+      enableLightTheme();
+      break;
+    case "dark":
+      enableDarkTheme();
+      break;
+    case "image":
+      enableImageTheme();
+      break;
+  }
+  console.log(currentImageIndex);
+}
+
+// ==============================
+// 13. Random Quote Functionality
+// ==============================
+function getRandomQuote() {
+  if (state.filteredQuotes.length === 0) return;
+
+  const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+  state.currentQuoteIndex = filteredQuotes[randomIndex];
+
+  displayCurrentQuote();
 }
 // ========================
 // 6. Start the Application
