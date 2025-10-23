@@ -24,39 +24,82 @@
           id="categories"
           aria-labelledby="quote-categories"
         >
-          <button class="category-btn active" aria-label="Category: All">
+          <button
+            class="category-btn js-category-btn active"
+            aria-label="Category: All"
+          >
             All
           </button>
-          <button class="category-btn" aria-label="Category: Motivation">
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Motivation"
+            data-category="Motivation"
+          >
             Motivation
           </button>
-          <button class="category-btn" aria-label="Category: Philosophy">
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Philosophy"
+            data-category="Philosophy"
+          >
             Philosophy
           </button>
-          <button class="category-btn" aria-label="Category: Life">Life</button>
-          <button class="category-btn" aria-label="Category: Personal Finance">
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Life"
+            data-category="Life"
+          >
+            Life
+          </button>
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Personal Finance"
+            data-category="Personal Finance"
+          >
             Personal Finance
           </button>
-          <button class="category-btn" aria-label="Category: Happiness">
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Happiness"
+            data-category="Happiness"
+          >
             Happiness
           </button>
-          <button class="category-btn" aria-label="Category: Love">Love</button>
-          <button class="category-btn" aria-label="Category: Programming">
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Love"
+            data-category="Love"
+          >
+            Love
+          </button>
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Programming"
+            data-category="Programming"
+          >
             Programming
           </button>
-          <button class="category-btn" aria-label="Category: Entrepreneurship">
+          <button
+            class="category-btn js-category-btn"
+            aria-label="Category: Entrepreneurship"
+            data-category="Entrepreneurship"
+          >
             Entrepreneurship
           </button>
         </section>
-        <section class="quote-container" aria-labelledby="quote">
-          <blockquote class="quote-text js-quote-text" id="quote-text">
-            Your time is limited, so don't waste it living someone else's life.
-          </blockquote>
-          <cite class="quote-author js-quote-author" id="author">
-            - Steve Jobs
-          </cite>
-          <span class="quote-category js-quote-category">Motivation</span>
+
+        <section
+          class="quote-container js-quote-container"
+          aria-labelledby="quote"
+        >
+          <blockquote
+            class="quote-text js-quote-text"
+            id="quote-text"
+          ></blockquote>
+          <cite class="quote-author js-quote-author" id="author"></cite>
+          <span class="quote-category js-quote-category"></span>
         </section>
+
         <section class="controls" aria-label="Quote Controls">
           <div class="movers">
             <button class="btn prev js-prev-btn">
@@ -70,6 +113,7 @@
             <span class="btn-icon">🎨</span>
             Theme
           </button>
+          <button class="btn change-bg js-change-bg"></button>
           <button class="btn copy js-copy-quote">
             <span class="btn-icon">📋</span>Copy Quote
           </button>
@@ -86,6 +130,7 @@
           </div>
         </section>
       </main>
+      <div class="notification js-notification" id="notification"></div>
     </div>
     <!-- Modern Footer -->
     <footer class="footer">
@@ -116,6 +161,6 @@
         &copy; 2025 Dadir Dev. All rights reserved.
       </div>
     </footer>
-    <script src="script.js"></script>
+    <script src="script-improved.js"></script>
   </body>
 </html>
