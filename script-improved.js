@@ -123,11 +123,7 @@ function handleCategoryChange(event) {
   event.target.classList.add("active");
 
   // Filter Quotes Based on Category
-
-  state.filteredQuotes =
-    selectedCategory === "All"
-      ? [...quotes]
-      : quotes.filter((quote) => quote.category === selectedCategory);
+  state.filteredQuotes = filterQuotesByCategory(selectedCategory);
 
   console.log(state.filteredQuotes);
   // Reset to first quote in category
@@ -453,4 +449,10 @@ function animateQuoteChange(container, callback) {
     container.style.transform = "translateY(0)";
     container.style.transition = "all 0.4s ease";
   }, 200);
+}
+
+function filterQuotesByCategory(category) {
+  return category === "All"
+    ? [...quotes]
+    : quotes.filter((quote) => quote.category === category);
 }
