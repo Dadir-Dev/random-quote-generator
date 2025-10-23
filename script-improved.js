@@ -76,21 +76,11 @@ function displayCurrentQuote() {
     return;
   }
 
-  // Add fade-out animation
-  quoteContainer.style.opacity = "0";
-  quoteContainer.style.transform = "translateY(10px)";
-
-  setTimeout(() => {
-    // Update content
+  animateQuoteChange(quoteContainer, () => {
     domElements.quoteText.textContent = quote.text;
     domElements.author.textContent = quote.author;
     domElements.quoteCategory.textContent = quote.category;
-
-    // Add fade-in animation
-    quoteContainer.style.opacity = "1";
-    quoteContainer.style.transform = "translateY(0)";
-    quoteContainer.style.transition = "all 0.4s ease";
-  }, 200);
+  });
 }
 
 function updateStatistics() {
@@ -448,3 +438,19 @@ function handleKeyboardNavigation(event) {
 // 6. Start the Application
 // ========================
 document.addEventListener("DOMContentLoaded", initializeApp);
+
+// =======================
+// 15. Helpers and Utilities
+// =======================
+function animateQuoteChange(container, callback) {
+  // Add fade-out animation
+  container.style.opacity = "0";
+  container.style.transform = "translateY(10px)";
+  setTimeout(() => {
+    callback();
+    // Add fade-in animation
+    container.style.opacity = "1";
+    container.style.transform = "translateY(0)";
+    container.style.transition = "all 0.4s ease";
+  }, 200);
+}
