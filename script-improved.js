@@ -292,6 +292,7 @@ function initializeApp() {
 function displayCurrentQuote() {
   const quote = state.filteredQuotes[state.currentQuoteIndex];
   const quoteContainer = document.querySelector(".js-quote-container");
+  console.log(quote);
 
   if (!quote) {
     domElements.quoteText.textContent = "No quotes available in this category.";
@@ -339,6 +340,9 @@ function setupEventHandlers() {
   // Action Buttons
   domElements.copyBtn.addEventListener("click", copyQuoteToClipboard);
   domElements.themeToggle.addEventListener("click", toggleTheme);
+
+  // Keyboard Shortcuts
+  document.addEventListener("keydown", handleKeyboardNavigation);
 }
 
 // =====================
@@ -356,18 +360,20 @@ function handleCategoryChange(event) {
   // Filter Quotes Based on Category
 
   state.filteredQuotes =
-    state.currentCategory === "All"
+    selectedCategory === "All"
       ? [...quotes]
       : quotes.filter((quote) => quote.category === selectedCategory);
 
+  console.log(state.filteredQuotes);
   // Reset to first quote in category
   state.currentQuoteIndex = 0;
   state.currentCategory = selectedCategory;
 
   // update UI
+  updateNavigationButtons();
   displayCurrentQuote();
   updateStatistics();
-  console.log(`Category Changed to: ${selectedCategory}`);
+  // console.log(`Category Changed to: ${selectedCategory}`);
 }
 
 // ===================
@@ -383,6 +389,7 @@ function showNextQuote() {
     // Loop back to first quote
     state.currentQuoteIndex = 0;
     displayCurrentQuote();
+    updateNavigationButtons();
   }
 }
 
@@ -638,10 +645,29 @@ function loadThemePreference() {
 function getRandomQuote() {
   if (state.filteredQuotes.length === 0) return;
 
-  const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-  state.currentQuoteIndex = filteredQuotes[randomIndex];
+  const randomIndex = Math.floor(Math.random() * state.filteredQuotes.length);
+  state.currentQuoteIndex = state.filteredQuotes[randomIndex];
 
   displayCurrentQuote();
+}
+
+// =====================
+// 14 Keyboard Shortcuts
+// =====================
+
+function handleKeyboardNavigation(event) {
+  switch (event.code) {
+    case "ArrowRight":
+    case "Space":
+      event.preventDefault();
+      showNextQuote();
+      break;
+
+    case "ArrowLeft":
+      event.preventDefault();
+      showPreviousQuote();
+      break;
+  }
 }
 // ========================
 // 6. Start the Application
