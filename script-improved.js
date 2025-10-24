@@ -78,7 +78,7 @@ function displayCurrentQuote() {
 
   animateQuoteChange(quoteContainer, () => {
     domElements.quoteText.textContent = quote.text;
-    domElements.author.textContent = quote.author;
+    domElements.author.textContent = `- ${quote.author}`;
     domElements.quoteCategory.textContent = quote.category;
   });
 }
@@ -125,7 +125,7 @@ function handleCategoryChange(event) {
   // Filter Quotes Based on Category
   state.filteredQuotes = filterQuotesByCategory(selectedCategory);
 
-  console.log(state.filteredQuotes);
+  // console.log(state.filteredQuotes);
   // Reset to first quote in category
   state.currentQuoteIndex = 0;
   state.currentCategory = selectedCategory;
@@ -144,26 +144,23 @@ function handleCategoryChange(event) {
 function showNextQuote() {
   if (state.currentQuoteIndex < state.filteredQuotes.length - 1) {
     state.currentQuoteIndex++;
-    displayCurrentQuote();
-    updateNavigationButtons();
   } else {
     // Loop back to first quote
     state.currentQuoteIndex = 0;
-    displayCurrentQuote();
-    updateNavigationButtons();
   }
+  displayCurrentQuote();
+  updateNavigationButtons();
 }
 
 function showPreviousQuote() {
   if (state.currentQuoteIndex > 0) {
     state.currentQuoteIndex--;
-    displayCurrentQuote();
-    updateNavigationButtons();
   } else {
     // loop back to last quote
     state.currentQuoteIndex = state.filteredQuotes.length - 1;
-    displayCurrentQuote();
   }
+  displayCurrentQuote();
+  updateNavigationButtons();
 }
 
 function updateNavigationButtons() {
@@ -185,20 +182,17 @@ function copyQuoteToClipboard() {
     showNotification("No quote to copy!", "error");
   }
 
-  const quoteText = `${currentQuote.text} 
-  - ${currentQuote.author}`;
+  const quoteText = `${currentQuote.text}\n - ${currentQuote.author}`;
 
   // Modern Clipboard API (most browsers)
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard
       .writeText(quoteText)
       .then(() => {
-        showNotification("✅ Quote copied to clipboard!", "success");
+        showNotification("✅ Quote copied to clipboard!");
         addCopyAnimation();
       })
-      .catch(() => {
-        showNotification("Failed to copy!", "error");
-      });
+      .catch(() => showNotification("Failed to copy!", "error"));
   }
 }
 
