@@ -102,19 +102,25 @@
 
         <section class="controls" aria-label="Quote Controls">
           <div class="movers">
-            <button class="btn prev js-prev-btn">
+            <button class="btn prev js-prev-btn" aria-label="Previous Button">
               <span class="btn-icon">⏮️</span>Previous
             </button>
-            <button class="btn next js-next-btn">
+            <button class="btn next js-next-btn" aria-label="Next Button">
               <span class="btn-icon">⏭️</span>Next
             </button>
           </div>
-          <button class="btn theme js-theme-toggle">
+          <button
+            class="btn theme js-theme-toggle"
+            aria-label="Theme Change Button"
+          >
             <span class="btn-icon">🎨</span>
             Theme
           </button>
-          <button class="btn change-bg js-change-bg"></button>
-          <button class="btn copy js-copy-quote">
+          <button
+            class="btn change-bg js-change-bg"
+            aria-label="Background Change Button"
+          ></button>
+          <button class="btn copy js-copy-quote" aria-label="Copy Quote Button">
             <span class="btn-icon">📋</span>Copy Quote
           </button>
         </section>
